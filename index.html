@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SignalShield is an interactive cybersecurity incident triage simulator for students and entry-level IT professionals." />
+  <title>SignalShield | Cybersecurity Incident Triage Simulator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div>
+        <div class="brand-name">SignalShield</div>
+        <div class="brand-subtitle">Cybersecurity Incident Triage Simulator</div>
+      </div>
+    </div>
+    <div class="status">
+      <span class="status-dot"></span>
+      Training Environment Online
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">INTERACTIVE CYBER LAB</span>
+        <h1>Think like a security analyst.<br><span>Practice the first 10 minutes.</span></h1>
+        <p>
+          Work through realistic IT and cybersecurity incidents, make triage decisions,
+          and see how your choices affect risk, containment, and recovery.
+        </p>
+        <div class="hero-actions">
+          <button class="primary" id="startBtn">Start a scenario</button>
+          <button class="secondary" id="randomBtn">Random incident</button>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="panel-label">LIVE TRAINING METRICS</div>
+        <div class="metrics">
+          <div class="metric"><strong id="scoreMetric">0</strong><span>Analyst score</span></div>
+          <div class="metric"><strong id="solvedMetric">0</strong><span>Cases solved</span></div>
+          <div class="metric"><strong id="streakMetric">0</strong><span>Best streak</span></div>
+        </div>
+        <div class="mini-terminal">
+          <div class="terminal-head"><span></span><span></span><span></span><b>soc@signalshield</b></div>
+          <pre id="terminalText">$ initializing training environment...
+$ loading incident library...
+$ ready for analyst input_</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="scenario-list">
+        <div class="section-heading">
+          <div>
+            <span>INCIDENT QUEUE</span>
+            <h2>Choose a case</h2>
+          </div>
+          <span class="count" id="queueCount">4 open</span>
+        </div>
+
+        <button class="scenario-card active" data-scenario="phishing">
+          <div class="scenario-icon">✉</div>
+          <div>
+            <div class="scenario-topline"><span>PHISHING</span><span class="severity high">High</span></div>
+            <h3>Suspicious Microsoft 365 login alert</h3>
+            <p>User reports a password reset message and a strange sign-in.</p>
+          </div>
+        </button>
+
+        <button class="scenario-card" data-scenario="ransomware">
+          <div class="scenario-icon">⌁</div>
+          <div>
+            <div class="scenario-topline"><span>ENDPOINT</span><span class="severity critical">Critical</span></div>
+            <h3>Files suddenly renamed on workstation</h3>
+            <p>Employee cannot open files and sees a payment note.</p>
+          </div>
+        </button>
+
+        <button class="scenario-card" data-scenario="wifi">
+          <div class="scenario-icon">⌁</div>
+          <div>
+            <div class="scenario-topline"><span>NETWORK</span><span class="severity medium">Medium</span></div>
+            <h3>Unknown device on office Wi-Fi</h3>
+            <p>A new device appears in the DHCP lease list after hours.</p>
+          </div>
+        </button>
+
+        <button class="scenario-card" data-scenario="usb">
+          <div class="scenario-icon">▣</div>
+          <div>
+            <div class="scenario-topline"><span>DEVICE</span><span class="severity high">High</span></div>
+            <h3>Unapproved USB drive detected</h3>
+            <p>Endpoint monitoring flags removable media on a finance PC.</p>
+          </div>
+        </button>
+      </aside>
+
+      <section class="case-panel">
+        <div class="case-header">
+          <div>
+            <span class="case-id" id="caseId">CASE #SS-1042</span>
+            <h2 id="caseTitle">Suspicious Microsoft 365 login alert</h2>
+          </div>
+          <span class="severity high" id="caseSeverity">High</span>
+        </div>
+
+        <div class="case-grid">
+          <div class="case-details">
+            <h3>Incident briefing</h3>
+            <p id="caseBrief"></p>
+
+            <div class="evidence">
+              <h3>Evidence</h3>
+              <div id="evidenceList"></div>
+            </div>
+
+            <div class="decision-area">
+              <div class="decision-heading">
+                <h3>Your first move</h3>
+                <span>Choose the best immediate action</span>
+              </div>
+              <div class="choices" id="choices"></div>
+            </div>
+
+            <div class="feedback hidden" id="feedback"></div>
+          </div>
+
+          <aside class="analyst-sidebar">
+            <div class="side-card">
+              <span class="side-label">TRIAGE CHECKLIST</span>
+              <label><input type="checkbox" disabled id="checkIdentify"> Identify the threat</label>
+              <label><input type="checkbox" disabled id="checkContain"> Contain immediate risk</label>
+              <label><input type="checkbox" disabled id="checkPreserve"> Preserve evidence</label>
+              <label><input type="checkbox" disabled id="checkCommunicate"> Communicate clearly</label>
+            </div>
+
+            <div class="side-card">
+              <span class="side-label">RISK SNAPSHOT</span>
+              <div class="risk-row"><span>Impact</span><b id="riskImpact">High</b></div>
+              <div class="risk-row"><span>Urgency</span><b id="riskUrgency">Immediate</b></div>
+              <div class="risk-row"><span>Confidence</span><b id="riskConfidence">78%</b></div>
+              <div class="risk-meter"><div id="riskBar"></div></div>
+            </div>
+
+            <div class="side-card tips">
+              <span class="side-label">ANALYST NOTE</span>
+              <p id="analystNote">Containment comes before cleanup when an account may already be compromised.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <section class="about">
+      <div>
+        <span class="eyebrow">WHY I BUILT THIS</span>
+        <h2>A practical project for real entry-level security thinking.</h2>
+      </div>
+      <p>
+        SignalShield turns common help desk and cybersecurity incidents into short decision-based exercises.
+        The goal is not to memorize definitions. It is to practice prioritization: what to verify, what to isolate,
+        what evidence to preserve, and when to escalate.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <span>SignalShield • Interactive Cybersecurity Training Project</span>
+    <span>Built with HTML, CSS, JavaScript, and AI-assisted development</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
